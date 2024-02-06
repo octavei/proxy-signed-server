@@ -1,0 +1,12 @@
+# mysql数据库地址
+DB_HOST="mysql+mysqlconnector://root:123456@localhost:3306/ps"
+
+# RabbitMQ服务器
+RABBIT_HOST = "localhost"
+RABBIT_PORT = "5672"
+
+# substarte节点
+SUBSTRATE_NODE= "wss://rect.me"
+
+# 用于代理签名的账号私钥
+PROXY_ACCOUNT_PRIVATE="error air wheat acid route thrive action sad reject goddess home half"
