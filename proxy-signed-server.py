@@ -14,36 +14,23 @@ class ProxySignedServer:
         self.mq = ProxySignedMQ(
             mq_host=os.getenv('RABBIT_HOST'),
             mq_port=os.getenv('RABBIT_PORT'),
+            mq_username=os.getenv('RABBIT_USERNAME'),
+            mq_password=os.getenv('RABBIT_PASSWORD'),
+            exchange_name_list=["proxy"],
             queue_name_list=["proxy_queue"],
-            exchange_name_list=["proxy"]
         )
         self.substarte = Substrate(
             node_url=os.getenv('SUBSTRATE_NODE'),
             proxy_keypair_mnemonic=os.getenv('PROXY_ACCOUNT_PRIVATE')
         )
 
-    def run(self):
+    def sub_proxy(self):
         # 订阅json
         self.mq.subscribe_message("proxy_queue", self.receive_batch_calls)
 
-        # 未执行交易轮询
-        self.non_exect_timer()
-
-        # # 获取交易执行结果轮询
-        self.check_proxy_announced_timer()
-
-        # non_exect_thread = threading.Thread(target=self.non_exect_timer)
-        # non_exect_thread.daemon = True
-        # non_exect_thread.start()
-
-        # check_proxy_announced_thread = threading.Thread(
-        #     target=self.check_proxy_announced_timer)
-        # check_proxy_announced_thread.daemon = True
-        # check_proxy_announced_thread.start()
-
     # 订阅消息callback
     def receive_batch_calls(self, ch, method, properties, body):
-        print(" [x] Received %r" % body)
+        print(" \n[x] Received %r" % body)
         # TODO:处理json -> 入库
 
     # 未执行交易定时器
@@ -70,5 +57,11 @@ class ProxySignedServer:
 
 
 if __name__ == "__main__":
-    server = ProxySignedServer()
-    server.run()
+    # 每个线程需要有自己独立的连接池
+    thread1 = threading.Thread(target=ProxySignedServer().sub_proxy)
+    thread1.start()
+    thread2 = threading.Thread(target=ProxySignedServer().non_exect_timer)
+    thread2.start()
+    thread3 = threading.Thread(
+        target=ProxySignedServer().check_proxy_announced_timer)
+    thread3.start()

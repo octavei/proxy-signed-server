@@ -12,8 +12,10 @@ class Substrate:
         self.proxy_keypair = Keypair.create_from_mnemonic(
             proxy_keypair_mnemonic)
 
-        # TODO:获取最终块的高度,判断proxy_keypair
-        # self.api.get_chain_finalised_head()
+    # TODO:获取最终块的高度,判断proxy_keypair
+    # self.api.get_chain_finalised_head()
+    def valid_keypair():
+        pass
 
     # 获得签名的结果
     def get_proxy_announced(self, accountIds: list(), call_hash: str):
@@ -31,7 +33,7 @@ class Substrate:
             call_function='announce',
             call_params={
                 'real': self.proxy_keypair.ss58_address,
-                'real': callHash
+                'callHash': callHash
             })
 
         tx_proxy_announce_hex = tx_proxy_announce.encode().to_hex()
