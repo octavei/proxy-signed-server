@@ -2,10 +2,10 @@
 DB_HOST="mysql+mysqlconnector://root:123456@localhost:3306/ps"
 
 # RabbitMQ服务器
-RABBIT_HOST = "localhost"
-RABBIT_PORT = "5672"
-RABBIT_USERNAME = "admin"
-RABBIT_PASSWORD = "123456"
+# RABBIT_HOST = "localhost"
+# RABBIT_PORT = "5672"
+# RABBIT_USERNAME = "admin"
+# RABBIT_PASSWORD = "123456"
 
 # substarte节点
 SUBSTRATE_NODE= "wss://rect.me"
